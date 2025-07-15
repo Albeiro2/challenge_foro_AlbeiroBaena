@@ -2,6 +2,7 @@ package challenge.foro.apiforochallenge.controller;
 
 import challenge.foro.apiforochallenge.domain.ValidacionExcepcion;
 import challenge.foro.apiforochallenge.domain.usuario.*;
+import challenge.foro.apiforochallenge.service.RegistroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,24 +19,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/registro")
 public class RegistroController {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final RegistroService registroService;
 
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    public RegistroController(RegistroService registroService) {
+        this.registroService = registroService;
+    }
 
     @Transactional
     @PostMapping
-    public ResponseEntity registrarUsuario(@RequestBody @Valid DatosAutenticacion datos, UriComponentsBuilder uriComponentsBuilder){
-        if (usuarioRepository.findByLogin(datos.login()) != null) {
-            throw new ValidarUserExcepcion("Ya existe un usuario con el login: " + datos.login());
-        }else {
-            String pass = passwordEncoder.encode(datos.contrasena());
-            var nuevoUsuario = new Usuario(null,datos.login(),pass);
-            usuarioRepository.save(nuevoUsuario);
-            var uri = uriComponentsBuilder.path("/usuarios/{id}").buildAndExpand(nuevoUsuario.getId()).toUri();
-            return ResponseEntity.created(uri).body(new DatosDetalleUsuario(nuevoUsuario));
-        }
-
+    public ResponseEntity registrarUsuario(@RequestBody @Valid DatosAutenticacion datos, UriComponentsBuilder uriComponentsBuilder ){
+       return registroService.registrarUsuario(uriComponentsBuilder, datos);
     }
 }
