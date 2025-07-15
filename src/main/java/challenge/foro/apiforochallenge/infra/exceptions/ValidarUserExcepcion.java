@@ -1,4 +1,4 @@
-package challenge.foro.apiforochallenge.domain.usuario;
+package challenge.foro.apiforochallenge.infra.exceptions;
 
 public class ValidarUserExcepcion extends RuntimeException {
     public ValidarUserExcepcion (String mensaje) {

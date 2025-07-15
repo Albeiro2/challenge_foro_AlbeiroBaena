@@ -1,5 +1,6 @@
-package challenge.foro.apiforochallenge.domain.usuario;
+package challenge.foro.apiforochallenge.repository;
 
+import challenge.foro.apiforochallenge.domain.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,5 +1,6 @@
-package challenge.foro.apiforochallenge.domain.usuario;
+package challenge.foro.apiforochallenge.service;
 
+import challenge.foro.apiforochallenge.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

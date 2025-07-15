@@ -1,6 +1,6 @@
 package challenge.foro.apiforochallenge.infra.security;
 
-import challenge.foro.apiforochallenge.domain.usuario.UsuarioRepository;
+import challenge.foro.apiforochallenge.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,5 @@
 package challenge.foro.apiforochallenge.infra.exceptions;
 
-import challenge.foro.apiforochallenge.domain.ValidacionExcepcion;
-import challenge.foro.apiforochallenge.domain.usuario.ValidarUserExcepcion;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

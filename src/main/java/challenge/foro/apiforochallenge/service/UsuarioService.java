@@ -1,7 +1,7 @@
 package challenge.foro.apiforochallenge.service;
 
 import challenge.foro.apiforochallenge.domain.usuario.DatosDetalleUsuario;
-import challenge.foro.apiforochallenge.domain.usuario.UsuarioRepository;
+import challenge.foro.apiforochallenge.repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

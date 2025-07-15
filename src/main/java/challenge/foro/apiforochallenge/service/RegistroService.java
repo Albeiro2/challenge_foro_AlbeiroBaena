@@ -1,6 +1,8 @@
 package challenge.foro.apiforochallenge.service;
 
 import challenge.foro.apiforochallenge.domain.usuario.*;
+import challenge.foro.apiforochallenge.infra.exceptions.ValidarUserExcepcion;
+import challenge.foro.apiforochallenge.repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
