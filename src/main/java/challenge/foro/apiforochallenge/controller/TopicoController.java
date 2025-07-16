@@ -1,5 +1,6 @@
 package challenge.foro.apiforochallenge.controller;
 
+import challenge.foro.apiforochallenge.domain.topico.DatosActualizacionTopico;
 import challenge.foro.apiforochallenge.domain.topico.DatosDetalleTopico;
 import challenge.foro.apiforochallenge.domain.topico.DatosListaTopico;
 import challenge.foro.apiforochallenge.domain.topico.DatosTopico;
@@ -38,6 +39,18 @@ public class TopicoController {
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaTopico> obtenerTopico(@PathVariable Long id){
         return topicoService.obtenerTopico(id);
+    }
+
+    @Transactional
+    @PutMapping
+    public ResponseEntity<DatosListaTopico> actualizarTopico(@RequestBody @Valid DatosActualizacionTopico datos){
+        return topicoService.actualizarTopico(datos);
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarTopico(@PathVariable Long id){
+        return topicoService.eliminarTopico(id);
     }
 
 }

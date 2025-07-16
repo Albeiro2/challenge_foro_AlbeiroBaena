@@ -1,9 +1,6 @@
 package challenge.foro.apiforochallenge.service;
 
-import challenge.foro.apiforochallenge.domain.topico.DatosDetalleTopico;
-import challenge.foro.apiforochallenge.domain.topico.DatosListaTopico;
-import challenge.foro.apiforochallenge.domain.topico.DatosTopico;
-import challenge.foro.apiforochallenge.domain.topico.Topico;
+import challenge.foro.apiforochallenge.domain.topico.*;
 import challenge.foro.apiforochallenge.repository.TopicoRepository;
 import challenge.foro.apiforochallenge.domain.usuario.Usuario;
 import org.springframework.data.domain.Page;
@@ -12,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -30,7 +28,7 @@ public class TopicoService {
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var topico = new Topico(null,datos.mensaje(),datos.nombreCurso(),datos.titulo(),usuario);
 
-        topicoRepository.save(topico); // debes tenerlo inyectado en la clase
+        topicoRepository.save(topico);
 
         var uri = uriBuilder
                 .path("/topicos/{id}")
@@ -54,6 +52,27 @@ public class TopicoService {
             return ResponseEntity.ok(new DatosListaTopico(topico.get()));
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<DatosListaTopico> actualizarTopico(DatosActualizacionTopico datos){
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Topico> topicoBuscado = topicoRepository.findByIdAndUsuarioId(datos.id(),usuario.getId());
+        if(topicoBuscado.isPresent()){
+            var topico = topicoBuscado.get();
+            topico.actualizarDatos(datos);
+            return ResponseEntity.ok(new DatosListaTopico(topico));
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no pertenece al usuario logueado");
+    }
+
+    public ResponseEntity<String> eliminarTopico(Long id){
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Topico> topicoBuscado = topicoRepository.findByIdAndUsuarioId(id,usuario.getId());
+        if(topicoBuscado.isPresent()){
+            topicoRepository.deleteById(id);
+            return ResponseEntity.ok("Topico eliminado satisfactoriamente");
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no pertenece al usuario logueado");
     }
 
 }
