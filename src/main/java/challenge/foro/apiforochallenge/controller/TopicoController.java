@@ -6,6 +6,7 @@ import challenge.foro.apiforochallenge.domain.topico.DatosListaTopico;
 import challenge.foro.apiforochallenge.domain.topico.DatosTopico;
 import challenge.foro.apiforochallenge.domain.usuario.Usuario;
 import challenge.foro.apiforochallenge.service.TopicoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicoController {
 
     TopicoService topicoService;
