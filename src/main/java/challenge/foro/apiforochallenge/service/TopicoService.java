@@ -1,6 +1,7 @@
 package challenge.foro.apiforochallenge.service;
 
 import challenge.foro.apiforochallenge.domain.topico.*;
+import challenge.foro.apiforochallenge.infra.exceptions.ValidacionExcepcion;
 import challenge.foro.apiforochallenge.repository.TopicoRepository;
 import challenge.foro.apiforochallenge.domain.usuario.Usuario;
 import org.springframework.data.domain.Page;
@@ -41,9 +42,11 @@ public class TopicoService {
     }
 
     public ResponseEntity<Page<DatosListaTopico>> listarTopicos(Pageable paginacion) {
-        return ResponseEntity.ok(
-                topicoRepository.findAll(paginacion).map(DatosListaTopico::new)
-        );
+        Page<Topico> pagina = topicoRepository.findAll(paginacion);
+        if (pagina.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(pagina.map(DatosListaTopico::new));
     }
 
     public ResponseEntity<DatosListaTopico> obtenerTopico(Long id){
@@ -62,7 +65,7 @@ public class TopicoService {
             topico.actualizarDatos(datos);
             return ResponseEntity.ok(new DatosListaTopico(topico));
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no pertenece al usuario logueado");
+        throw new ValidacionExcepcion("Tópico no pertenece al usuario logueado");
     }
 
     public ResponseEntity<String> eliminarTopico(Long id){
@@ -72,7 +75,7 @@ public class TopicoService {
             topicoRepository.deleteById(id);
             return ResponseEntity.ok("Topico eliminado satisfactoriamente");
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no pertenece al usuario logueado");
+        throw new ValidacionExcepcion("Tópico no pertenece al usuario logueado");
     }
 
 }

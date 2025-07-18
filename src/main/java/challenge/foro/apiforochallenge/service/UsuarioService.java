@@ -18,7 +18,13 @@ public class UsuarioService {
 
     public ResponseEntity<List<DatosDetalleUsuario>> listarUsuarios(){
         var usuarios = usuarioRepository.findAll().stream()
-                .map(DatosDetalleUsuario::new).toList();
+                .map(DatosDetalleUsuario::new)
+                .toList();
+
+        if (usuarios.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
         return ResponseEntity.ok(usuarios);
     }
 }
